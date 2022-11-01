@@ -1,0 +1,9 @@
+<div class="ver">
+    <app-alumnos-form *ngIf="dataenviada" 
+    (itemAdded)="onItemAdd($event)"
+    ></app-alumnos-form>
+
+    <app-alumnos-table *ngIf="!dataenviada" 
+    (OcultarTabla)="onToCreate($event)"
+    ></app-alumnos-table>
+</div>

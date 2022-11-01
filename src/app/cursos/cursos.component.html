@@ -1,0 +1,10 @@
+<div class="ver">
+    <app-cursos-form *ngIf="mostrarform"
+    (VerForm)="onFormSend($event)"
+    ></app-cursos-form>
+
+    <app-cursos-table *ngIf="!mostrarform"
+    (OcultarTabla)="onTableSend($event)"
+    ></app-cursos-table>
+</div>
+

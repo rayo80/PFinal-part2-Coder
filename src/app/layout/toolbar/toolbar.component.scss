@@ -1,0 +1,35 @@
+  .hamburger {
+    margin-top: 5px;
+    cursor: pointer;
+  }
+  .header {
+    justify-content: space-between;
+  }
+
+  .header {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  /*
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+  */
+  .nav-tool-items {
+    display: inline-block;
+    margin-right: 13px;
+  }
+
+  @media (max-width:767px) {
+    .nav-tool-items {
+      margin-right: 0;
+    }
+  
+    .hamburger {
+      visibility: visible !important;
+    }
+  }
