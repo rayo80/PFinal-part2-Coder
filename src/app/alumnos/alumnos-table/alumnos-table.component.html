@@ -58,6 +58,17 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="ver mas">
+        <th mat-header-cell *matHeaderCellDef> Ver mas</th>
+
+        <td mat-cell *matCellDef="let element" >
+          <button mat-raised-button color="primary" (click)="onDetail(element)">
+              <mat-icon aria-hidden="false" aria-label="Example delete icon">search</mat-icon>
+              Ver mas
+            </button>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>

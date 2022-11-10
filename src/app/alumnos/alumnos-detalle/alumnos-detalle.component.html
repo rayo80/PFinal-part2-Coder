@@ -1,0 +1,10 @@
+<mat-list *ngFor="let item of alumno$ | async">
+    <mat-list-item>id: {{item.id}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>name: {{item.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>email: {{item.email}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>apellidos: {{item.apellidos}}</mat-list-item>
+    <mat-divider></mat-divider>
+</mat-list>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlumnoSchema } from '../models/alumno.interface';
+import { Router } from '@angular/router';
+import { AlumnoSchema } from './alumno.interface';
 
 @Component({
   selector: 'app-alumno-content',
@@ -8,7 +9,7 @@ import { AlumnoSchema } from '../models/alumno.interface';
 })
 export class AlumnoContentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
   ngOnInit(): void {
   }
 
@@ -20,10 +21,16 @@ export class AlumnoContentComponent implements OnInit {
 
   //el formulario envia un valor, hora de ocultarlo
   onItemAdd(e:any){
+    this.router.navigate(['alumnos/agregar']);
     this.dataenviada=!e;
+    //a pedido del tutor
+
+
   }
   onToCreate(e:any){
+    this.router.navigate(['alumnos/agregar']);
     this.dataenviada=e;
+    
   }
 
 }

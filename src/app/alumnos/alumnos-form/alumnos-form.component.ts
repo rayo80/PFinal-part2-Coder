@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlumnosService } from 'src/app/alumnos/alumnos.service';
-import { AlumnoSchema } from '../../models/alumno.interface';
+import { AlumnoSchema } from '../alumno.interface';
 
 @Component({
   selector: 'app-alumnos-form',
@@ -14,8 +14,7 @@ export class AlumnosFormComponent implements OnInit {
   alumnoToEdit:any; //alumno a ser editado
   error=false
   index: any;
-  @Output() itemAdded = new EventEmitter<any>(); 
-
+  localAlumnos:any =[];
 
   constructor(
     private fbuild: FormBuilder, private alumnosService: AlumnosService,
@@ -33,7 +32,18 @@ export class AlumnosFormComponent implements OnInit {
     this.alumnosService.getAlumnoToEdit().subscribe(
       val=>this.alumnoToEdit=val
     )
+
+    this.alumnosService.getAlumnosList().subscribe(
+      val=>this.localAlumnos = val,
+      ()=>console.log(this.localAlumnos)
+    )
     
+    console.log(this.localAlumnos)
+
+    this.alumnosService.getActualIndex().subscribe(
+      val=>this.index = val
+    )
+
     if(this.alumnoToEdit){
       this.formAlumnos.get('name')?.patchValue(this.alumnoToEdit.name);
       this.formAlumnos.get('apellidos')?.patchValue(this.alumnoToEdit.apellidos);
@@ -45,34 +55,25 @@ export class AlumnosFormComponent implements OnInit {
   onSubmit(){
     
     if((this.formAlumnos.status != 'INVALID')){  
-        let localAlumnos=[];
         let id;
-        this.alumnosService.getActualIndex().subscribe(
-          val=>this.index=val
-        )
-        this.alumnosService.getAlumnosList().subscribe(
-          val=>localAlumnos = val
-        )
         
-        if(localAlumnos.length>0 && !this.alumnoToEdit ){
+        if(this.localAlumnos.length >= 0 && !this.alumnoToEdit ){
           //traemos el id
-          id=this.index+1;
+          this.alumnosService.index = this.alumnosService.index+1;
+          id = this.alumnosService.index
           this.formAlumnos.value['id'] = id;
-          localAlumnos.push(this.formAlumnos.value)
+          this.localAlumnos.push(this.formAlumnos.value)
+        }
 
-        }else if(localAlumnos.length===0 && !this.alumnoToEdit){
-          id=this.index+1;
-          this.formAlumnos.value['id'] = id;
-          localAlumnos.push(this.formAlumnos.value)
-        }
         if(this.alumnoToEdit){
-          let indexOfAlumnos=localAlumnos.findIndex((al:any) => al.id===this.alumnoToEdit.id);
-          this.formAlumnos.value['id'] = indexOfAlumnos;
-          localAlumnos[indexOfAlumnos] = this.formAlumnos.value;
+          let indexOfAlumnos = this.localAlumnos.findIndex((al:any) => al.id===this.alumnoToEdit.id);
+          this.formAlumnos.value['id'] = this.alumnoToEdit.id;
+          // solo actualizamos la lista
+          this.localAlumnos[indexOfAlumnos] = this.formAlumnos.value;
         }
-        this.alumnosService.alumnoslist=localAlumnos!
-        this.alumnosService.index=id;
-        this.itemAdded.emit(true);
+        this.alumnosService.alumnoslist = this.localAlumnos!
+        this.alumnosService.alumnoToEdit = null
+        this.router.navigate(['alumnos/listar']);
 
     }else{
       this.error=true;
